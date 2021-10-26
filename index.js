@@ -154,7 +154,14 @@ const removeFavorite = async (userId, collectionId) => {
   }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  cors: {
+    origin: "*",
+    credentials: true,
+  },
+  typeDefs,
+  resolvers,
+});
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
