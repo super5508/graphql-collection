@@ -37,7 +37,7 @@ const typeDefs = gql`
     collectionTypes: [CollectionType]
     collections(type: String): [Collection]
     favoriteCollections(userId: String): [Collection]
-    collectionById(collectionId: String): [Collection]
+    collectionById(collectionId: String): Collection
   }
 
   type Mutation {
