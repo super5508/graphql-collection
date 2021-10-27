@@ -37,6 +37,7 @@ const typeDefs = gql`
     collectionTypes: [CollectionType]
     collections(type: String): [Collection]
     favoriteCollections(userId: String): [Collection]
+    collectionById(collectionId: String): [Collection]
   }
 
   type Mutation {
@@ -61,6 +62,9 @@ const resolvers = {
     },
     favoriteCollections: async (_, { userId }) => {
       return await fetchFavoritesCollections(userId);
+    },
+    collectionById: async (_, { collectionId }) => {
+      return await fetchCollectionById(collectionId);
     },
   },
   Mutation: {
@@ -103,6 +107,13 @@ const fetchCollectionsByType = async (type) => {
     results.push(original);
   });
   return results;
+};
+
+const fetchCollectionById = async (collectionId) => {
+  const collection = await db.collection("collections").doc(collectionId).get();
+  const result = collection.data();
+  result.id = collection.id;
+  return result;
 };
 
 const fetchFavoritesCollections = async (userId) => {
